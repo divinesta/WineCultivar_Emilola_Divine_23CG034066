@@ -6,6 +6,6 @@ Machine Learning Algorithm Used: [Random Forest Classifier / Logistic Regression
 
 Model Persistence Method Used: Joblib
 
-Live URL of Hosted Application: [Your deployed URL from Render/PythonAnywhere/Streamlit Cloud/etc.]
+Live URL of Hosted Application: https://winecultivar-emilola-divine-23cg034066.onrender.com
 
 GitHub Repository Link: https://github.com/divinesta/WineCultivar_Emilola_Divine_23CG034066.git
