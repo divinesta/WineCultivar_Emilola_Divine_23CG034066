@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Wine Cultivar Origin Prediction System</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+   </head>
+   <body>
+      <div class="container">
+         <header>
+            <h1>🍷 Wine Cultivar Origin Prediction System</h1>
+            <p class="subtitle">Predict wine cultivar based on chemical properties</p>
+         </header>
+
+         <div class="content">
+            <form method="POST" action="/predict" class="prediction-form">
+               <h2>Enter Wine Chemical Properties</h2>
+
+               <div class="form-grid">
+                  {% for feature in features %}
+                  <div class="form-group">
+                     <label for="{{ feature }}">{{ feature.replace('_', ' ').title() }}</label>
+                     <input type="number" step="0.01" id="{{ feature }}" name="{{ feature }}" {% if input_values %} value="{{ input_values.get(feature, '') }}" {% endif %} required />
+                  </div>
+                  {% endfor %}
+               </div>
+
+               <button type="submit" class="btn-predict">Predict Cultivar</button>
+            </form>
+
+            {% if prediction %}
+            <div class="result-card success">
+               <h2>Prediction Result</h2>
+               <div class="prediction-result">
+                  <p class="result-label">Predicted Wine Cultivar:</p>
+                  <p class="result-value">{{ prediction }}</p>
+               </div>
+
+               {% if confidence %}
+               <div class="confidence-section">
+                  <h3>Confidence Levels:</h3>
+                  <div class="confidence-bars">
+                     {% for cultivar, conf in confidence.items() %}
+                     <div class="confidence-item">
+                        <span class="confidence-label">{{ cultivar }}</span>
+                        <div class="confidence-bar-container">
+                           <div class="confidence-bar" style="width: {{ conf }}"></div>
+                        </div>
+                        <span class="confidence-value">{{ conf }}</span>
+                     </div>
+                     {% endfor %}
+                  </div>
+               </div>
+               {% endif %}
+            </div>
+            {% endif %} {% if error %}
+            <div class="result-card error">
+               <h2>Error</h2>
+               <p>{{ error }}</p>
+            </div>
+            {% endif %}
+         </div>
+
+         <footer>
+            <div class="info-section">
+               <h3>About the Model</h3>
+               <p>This system uses machine learning to predict wine cultivar origin based on chemical analysis. The model is trained on the UCI Wine Dataset.</p>
+
+               <div class="features-info">
+                  <h4>Input Features Used:</h4>
+                  <ul>
+                     {% for feature in features %}
+                     <li>{{ feature.replace('_', ' ').title() }}</li>
+                     {% endfor %}
+                  </ul>
+               </div>
+            </div>
+         </footer>
+      </div>
+
+      <script>
+         // Add sample data button functionality
+         function loadSampleData() {
+            // Sample wine data for testing
+            const samples = {
+               cultivar_1: {
+                  alcohol: 13.2,
+                  malic_acid: 1.78,
+                  ash: 2.14,
+                  total_phenols: 2.65,
+                  flavanoids: 2.76,
+                  color_intensity: 5.8,
+               },
+               cultivar_2: {
+                  alcohol: 12.37,
+                  malic_acid: 1.17,
+                  ash: 1.92,
+                  total_phenols: 2.03,
+                  flavanoids: 1.64,
+                  color_intensity: 4.5,
+               },
+               cultivar_3: {
+                  alcohol: 13.05,
+                  malic_acid: 1.77,
+                  ash: 2.1,
+                  total_phenols: 2.85,
+                  flavanoids: 3.28,
+                  color_intensity: 7.0,
+               },
+            };
+
+            // Randomly select a sample
+            const sampleKeys = Object.keys(samples);
+            const randomSample = samples[sampleKeys[Math.floor(Math.random() * sampleKeys.length)]];
+
+            // Fill form with sample data
+            for (const [key, value] of Object.entries(randomSample)) {
+               const input = document.getElementById(key);
+               if (input) {
+                  input.value = value;
+               }
+            }
+         }
+
+         // Add button to load sample data
+         window.addEventListener("DOMContentLoaded", (event) => {
+            const form = document.querySelector(".prediction-form");
+            const sampleBtn = document.createElement("button");
+            sampleBtn.type = "button";
+            sampleBtn.className = "btn-sample";
+            sampleBtn.textContent = "Load Sample Data";
+            sampleBtn.onclick = loadSampleData;
+            form.insertBefore(sampleBtn, form.querySelector(".btn-predict"));
+         });
+      </script>
+   </body>
+</html>

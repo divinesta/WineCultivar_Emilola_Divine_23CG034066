@@ -1,0 +1,11 @@
+Name: Emilola Divine
+
+Matric Number: 23CG034066
+
+Machine Learning Algorithm Used: [Random Forest Classifier / Logistic Regression / SVM / KNN / Naïve Bayes / Neural Network / LightGBM]
+
+Model Persistence Method Used: Joblib
+
+Live URL of Hosted Application: [Your deployed URL from Render/PythonAnywhere/Streamlit Cloud/etc.]
+
+GitHub Repository Link: https://github.com/divinesta/WineCultivar_Emilola_Divine_23CG034066.git
